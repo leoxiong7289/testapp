@@ -13,6 +13,7 @@
     "react-router-dom": "^5.1.2",
     "react-router-guards": "^1.0.1",
     "react-scripts": "3.3.1",
+    "styled-components": "^5.0.1",
     "utils": "^0.3.1"
   },
   "scripts": {

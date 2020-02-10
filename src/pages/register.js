@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import apiUrl from "../config";
 import axios from "axios";
-// import { Link } from "react-router-dom";
+import styled from 'styled-components'
+
+const RegisterCard = styled.div`
+    width: 400px;
+    height: 150px;
+    background-color:#bbb;
+    margin: 150px auto;
+`
 
 export default props => {
   const [email, setEmail] = useState("");
@@ -10,19 +17,13 @@ export default props => {
   const [isLogging, setIsLogging] = useState(false);
   const [error, setError] =useState('')
 
-
+  useEffect(()=>{},[])
 
   const checkSubmit = () => {
     setIsLogging(true);
-    let regex = /\S+@\S+\.\S+/;
+    // let regex = /\S+@\S+\.\S+/;
     if (!email) {
       alert("Email Address cannot be empty");
-      setTimeout(() => {
-        setIsLogging(false);
-      }, 500);
-      return false;
-    } else if (!regex.test(email)) {
-      alert("Email Address is not valid");
       setTimeout(() => {
         setIsLogging(false);
       }, 500);
@@ -42,15 +43,22 @@ export default props => {
       alert("email address or password error or have registered");
     }
 
-    setTimeout(() => {
-      setIsLogging(false);
-    }, 1000);
   };
 
-  console.log("email, password, isSubscribe", email, password, isSubscribe);
+  // console.log("email, password, isSubscribe", email, password, isSubscribe);
+
+  const checkEmailFormat = email => {
+    let regex = /\S+@\S+\.\S+/
+    if (!regex.test(email)) {
+        setError('Email Address is not valid')
+    } else {
+        setError('')
+    }
+  }
 
   return (
-    <div className="login-div">
+    <RegisterCard className="register-div">
+      {error && <div className='error' >{error}</div>}
       <div>
         <label htmlFor="email">Email: </label>
         <input
@@ -59,6 +67,9 @@ export default props => {
           value={email}
           onChange={e => {
             setEmail(e.target.value);
+          }}
+          onBlur={e =>{
+            checkEmailFormat(e.target.value)
           }}
           placeholder="please input email address"
         />
@@ -90,6 +101,6 @@ export default props => {
           Submit
         </button>
       </div>
-    </div>
+    </RegisterCard>
   );
 };

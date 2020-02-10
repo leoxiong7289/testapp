@@ -1,7 +1,14 @@
 import React,{ useState, useEffect } from 'react';
 import apiUrl from '../config'
 import axios from 'axios'
+import styled from 'styled-components'
 
+const ResetCard = styled.div`
+    width: 400px;
+    height: 150px;
+    background-color:#bbb;
+    margin: 150px auto;
+`
 
 
 export default (props) => {
@@ -12,7 +19,7 @@ export default (props) => {
     const [isLogging, setIsLogging] =useState(false)
     const [error, setError] =useState('')
 
-
+    useEffect(()=>{},[])
 
     const checkSubmit = () => {
         setIsLogging(true)
@@ -48,21 +55,27 @@ export default (props) => {
         } else {
             alert('email address or password error')
         }
+    }
 
-        setTimeout(()=>{
-            setIsLogging(false)
-        },1000)
+    const checkEmailFormat = email => {
+        let regex = /\S+@\S+\.\S+/
+        if (!regex.test(email)) {
+            setError('Email Address is not valid')
+        } else {
+            setError('')
+        }
     }
 
     let token = localStorage.getItem('token')
-    if(token) {
+    if(!token) {
         alert('please login')
         props.history.push('/')
     }
 
     return(
         
-        <div className='login-div'>
+        <ResetCard className='reset-div'>
+            {error && <div className='error' >{error}</div>}
             <div>
                 <label htmlFor='email'>Email: </label>
                 <input 
@@ -72,11 +85,14 @@ export default (props) => {
                     onChange={e=>{
                         setEmail(e.target.value)
                     }}
+                    onBlur={e=>{
+                        checkEmailFormat(e.target.value)
+                    }}
                     placeholder='please input email address'
                 />
             </div>
             <div>
-                <label htmlFor='oldPassword'>Password: </label>
+                <label htmlFor='oldPassword'>Old Password: </label>
                 <input 
                     type='password'
                     name='oldPassword'
@@ -87,7 +103,7 @@ export default (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='newPassword'>Password: </label>
+                <label htmlFor='newPassword'>New Password: </label>
                 <input 
                     type='password'
                     name='newPassword'
@@ -105,6 +121,6 @@ export default (props) => {
                     Submit
                 </button>
             </div>
-        </div>
+        </ResetCard>
     )
 }

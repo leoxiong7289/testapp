@@ -2,7 +2,14 @@ import React,{ useState, useEffect } from 'react';
 import apiUrl from '../config'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
+const LoginCard = styled.div`
+    width: 400px;
+    height: 150px;
+    background-color:#bbb;
+    margin: 150px auto;
+`
 
 export default (props) => {
 
@@ -11,6 +18,8 @@ export default (props) => {
     const [password, setPassword] =useState('')
     const [isLogging, setIsLogging] =useState(false)
     const [error, setError] =useState('')
+
+    // useEffect(()=>{},[])
 
     // define a function to check validation of data when submit login
     const checkLogin = () => {
@@ -30,13 +39,16 @@ export default (props) => {
             return false
         }
         // due to invalid api, just write a static mock to test
-        if (email==='admin@example.com' && password==='123456') {
-            const token='12345678'
+        if (email==='admin@example.com' && password==='123') {
+            alert('login succeed')
+            const token=new Date().getTime()
             localStorage.setItem('token',token)
             props.history.push('/welcome')
         } else {
             alert('email address or password error')
         }
+
+        // TODO: when api issue fixed, adjust the below code to make sense with real data
         // let dataProps = {
         //     'email': email,
         //     'password': password
@@ -58,11 +70,9 @@ export default (props) => {
         //         }
         //     }
         // )
-        setTimeout(()=>{
-            setIsLogging(false)
-        },1000)
     }
 
+    // define a email format check function to dispaly inline error message to user
     const checkEmailFormat = email => {
         let regex = /\S+@\S+\.\S+/
         if (!regex.test(email)) {
@@ -74,7 +84,7 @@ export default (props) => {
 
 
     return(
-        <div className='login-div'>
+        <LoginCard className='login-div'>
             {error && <div className='error' >{error}</div>}
             <div>
                 <label htmlFor='email'>Email: </label>
@@ -85,7 +95,7 @@ export default (props) => {
                     onChange={e=>{
                         setEmail(e.target.value)
                     }}
-                    placeholder='please input email address'
+                    placeholder='please input email'
                     onBlur={e=>{
                         checkEmailFormat(e.target.value)
                     }}
@@ -113,6 +123,6 @@ export default (props) => {
                     Submit
                 </button>
             </div>
-        </div>
+        </LoginCard>
     )
 }

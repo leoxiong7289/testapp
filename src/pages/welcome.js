@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 export default (props)=> {
 
     let token = localStorage.getItem('token')
-    if(token) {
+    if(!token) {
         alert('please login')
         props.history.push('/')
     }
@@ -21,7 +21,9 @@ export default (props)=> {
             </Link>
 
             <Link to='/'>
-                <button>
+                <button
+                    onClick={()=>{localStorage.removeItem('token')}}
+                >
                     Logout
                 </button>
             </Link>
