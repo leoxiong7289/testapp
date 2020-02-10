@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default (props)=> {
 
+    // to alternate react-rotuer-guard, because the guard have a weird issue in my runtime
     let token = localStorage.getItem('token')
     if(!token) {
         alert('please login')

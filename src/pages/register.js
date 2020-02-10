@@ -35,7 +35,7 @@ export default props => {
       }, 500);
       return false;
     }
-    let subscribeValue = isSubscribe ? 1 : 0;
+    let subscribeValue = isSubscribe ? 1 : 0; // follow requirement, transfer boolean to int type
     if (email && password && subscribeValue) {
       alert("register succeed");
       props.history.push("/login");

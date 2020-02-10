@@ -23,20 +23,22 @@ export default (props) => {
 
     const checkSubmit = () => {
         setIsLogging(true)
-        let regex = /\S+@\S+\.\S+/
+        // let regex = /\S+@\S+\.\S+/
         if(!email) {
             alert('Email Address cannot be empty')
             setTimeout(()=>{
                 setIsLogging(false)
             },500)
-            return false
-        } else if(!regex.test(email)){
-            alert('Email Address is not valid')
-            setTimeout(()=>{
-                setIsLogging(false)
-            },500)
-            return false
-        } else if(!oldPassword || !newPassword) {
+            return false     
+        } 
+        // else if(!regex.test(email)){
+        //     alert('Email Address is not valid')
+        //     setTimeout(()=>{
+        //         setIsLogging(false)
+        //     },500)
+        //     return false
+        // } 
+        else if(!oldPassword || !newPassword) {
             alert('oldPassword and newPassword cannot be empty')
             setTimeout(()=>{
                 setIsLogging(false)
@@ -66,6 +68,7 @@ export default (props) => {
         }
     }
 
+    // alternate the react-router-guards 
     let token = localStorage.getItem('token')
     if(!token) {
         alert('please login')
@@ -75,7 +78,7 @@ export default (props) => {
     return(
         
         <ResetCard className='reset-div'>
-            {error && <div className='error' >{error}</div>}
+            {error && <div className='error' >{error}</div>} // display error message if error occur
             <div>
                 <label htmlFor='email'>Email: </label>
                 <input 
