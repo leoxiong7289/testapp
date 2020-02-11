@@ -36,12 +36,35 @@ export default props => {
       return false;
     }
     let subscribeValue = isSubscribe ? 1 : 0; // follow requirement, transfer boolean to int type
-    if (email && password && subscribeValue) {
-      alert("register succeed");
-      props.history.push("/login");
-    } else {
-      alert("email address or password error or have registered");
-    }
+    let dataProps = {
+      'email': email,
+      'password': password,
+      'isSubscribe':subscribeValue
+  }
+  axios({
+      method: 'post',
+      url: apiUrl.register,
+      data: dataProps,
+      // withCredentials: true
+  }).then(
+      (res) => {
+          setIsLogging(false)
+          console.log(res.data)
+
+          if(res.data.isSuccess===true) {
+              // localStorage.setItem('token',res.data.data.token)
+              alert('register success')
+              setTimeout(()=>{
+                props.history.push('/')
+              },300)
+          }
+      }
+  ).catch(
+      (error) => {
+        console.log(error.response)
+       alert(error.response.data.errorMessage || error.response.data.errors.Password[0])
+      })
+
 
   };
 

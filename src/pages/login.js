@@ -39,37 +39,37 @@ export default (props) => {
             return false
         }
         // due to invalid api, just write a static mock to test
-        if (email==='admin@example.com' && password==='123') {
-            alert('login succeed')
-            const token=new Date().getTime()
-            localStorage.setItem('token',token)
-            props.history.push('/welcome')
-        } else {
-            alert('email address or password error')
-        }
+        // if (email==='admin@example.com' && password==='123') {
+        //     alert('login succeed')
+        //     const token=new Date().getTime()
+        //     localStorage.setItem('token',token)
+        //     props.history.push('/welcome')
+        // } else {
+        //     alert('email address or password error')
+        // }
 
         // TODO: when api issue fixed, adjust the below code to make sense with real data
-        // let dataProps = {
-        //     'email': email,
-        //     'password': password
-        // }
-        // axios({
-        //     method: 'post',
-        //     url: apiUrl.login,
-        //     data: dataProps,
-        //     withCredentials: true
-        // }).then(
-        //     (res) => {
-        //         setIsLogging(false)
-        //         console.log(res)
-        //         if(res.data.data==='login successful') {
-        //             localStorage.setItem('token',res.data.token)
-        //             props.history.push('/welcome')
-        //         } else {
-        //             alert('error')
-        //         }
-        //     }
-        // )
+        let dataProps = {
+            'email': email,
+            'password': password
+        }
+        axios({
+            method: 'post',
+            url: apiUrl.login,
+            data: dataProps,
+            // withCredentials: true
+        }).then(
+            (res) => {
+                setIsLogging(false)
+                console.log(res.data)
+                if(res.data.isSuccess===true) {
+                    localStorage.setItem('token',res.data.data.token)
+                    props.history.push('/welcome')
+                } else {
+                    alert(res.data.errorMessage)
+                }
+            }
+        )
     }
 
     // define a email format check function to dispaly inline error message to user

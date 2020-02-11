@@ -30,15 +30,7 @@ export default (props) => {
                 setIsLogging(false)
             },500)
             return false     
-        } 
-        // else if(!regex.test(email)){
-        //     alert('Email Address is not valid')
-        //     setTimeout(()=>{
-        //         setIsLogging(false)
-        //     },500)
-        //     return false
-        // } 
-        else if(!oldPassword || !newPassword) {
+        } else if(!oldPassword || !newPassword) {
             alert('oldPassword and newPassword cannot be empty')
             setTimeout(()=>{
                 setIsLogging(false)
@@ -50,13 +42,39 @@ export default (props) => {
                 setIsLogging(false)
             },500)
         }
-         
-        if (email && oldPassword && newPassword && oldPassword!==newPassword) {
-            alert('password reset succeed')
-            props.history.push('/welcome')
-        } else {
-            alert('email address or password error')
+        let dataProps = {
+            'email': email,
+            'oldPassword': oldPassword,
+            'newPassword': newPassword
         }
+         
+        axios({
+            method: 'put',
+            url: apiUrl.ChangePassword,
+            headers: {
+                'Authorize': localStorage.getItem('token')
+            },
+            data: dataProps,
+            // withCredentials: true
+        }).then(
+            (res) => {
+                setIsLogging(false)
+                console.log(res.data)
+      
+                // if(res.data.isSuccess===true) {
+                //     // localStorage.setItem('token',res.data.data.token)
+                //     alert('register success')
+                //     setTimeout(()=>{
+                //       props.history.push('/')
+                //     },300)
+                // }
+            }
+        ).catch(
+            (error) => {
+              console.log(error.response)
+            //  alert(error.response.data.errorMessage)
+            })
+
     }
 
     const checkEmailFormat = email => {
@@ -78,7 +96,8 @@ export default (props) => {
     return(
         
         <ResetCard className='reset-div'>
-            {error && <div className='error' >{error}</div>} // display error message if error occur
+            {/* // display error message if error occur */}
+            {error && <div className='error' >{error}</div>} 
             <div>
                 <label htmlFor='email'>Email: </label>
                 <input 
