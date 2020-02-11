@@ -47,27 +47,26 @@ export default (props) => {
             'oldPassword': oldPassword,
             'newPassword': newPassword
         }
-         
+        let token = localStorage.getItem('token')
         axios({
             method: 'put',
             url: apiUrl.ChangePassword,
             headers: {
-                'Authorize': localStorage.getItem('token')
+                authorization: `Bearer ${token}`
             },
             data: dataProps,
             // withCredentials: true
         }).then(
             (res) => {
                 setIsLogging(false)
-                console.log(res.data)
-      
-                // if(res.data.isSuccess===true) {
-                //     // localStorage.setItem('token',res.data.data.token)
-                //     alert('register success')
-                //     setTimeout(()=>{
-                //       props.history.push('/')
-                //     },300)
-                // }
+                console.log(res.data)     
+                if(res.data.isSuccess===true) {
+                    // localStorage.setItem('token',res.data.data.token)
+                    alert('Password reset success')
+                    setTimeout(()=>{
+                      props.history.push('/welcome')
+                    },300)
+                }
             }
         ).catch(
             (error) => {
